@@ -1,0 +1,17 @@
+# Credentials — never commit these
+.env
+secrets.py
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Local database
+*.db
+
+# OS files
+.DS_Store
+Thumbs.db
