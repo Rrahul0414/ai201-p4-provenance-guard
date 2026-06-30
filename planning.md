@@ -76,6 +76,27 @@ GET /log
   -> return structured JSON entries
 ```
 
+```mermaid
+flowchart TD
+  submit["POST /submit"] --> normalize["Normalize text"]
+  normalize --> semantic["Semantic signal"]
+  normalize --> stylometric["Stylometric signal"]
+  semantic --> combine["Combine scores"]
+  stylometric --> combine
+  combine --> label["Map label"]
+  label --> store["Store submission"]
+  store --> audit["Append audit log entry"]
+  audit --> response["Return response"]
+
+  appeal["POST /appeal"] --> lookup["Lookup content_id"]
+  lookup --> underReview["Set status = under_review"]
+  underReview --> audit
+  audit --> appealResponse["Return appeal confirmation"]
+
+  log["GET /log"] --> read["Read audit log rows"]
+  read --> logResponse["Return structured JSON entries"]
+```
+
 The submission flow produces both the user-facing decision and a permanent record. The appeal flow reuses the same storage so a human reviewer can see the original classification, the creator's reasoning, and the status change in one place.
 
 ## Stretch Feature: Analytics Dashboard
